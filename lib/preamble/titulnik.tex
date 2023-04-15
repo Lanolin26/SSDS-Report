@@ -1,0 +1,47 @@
+\newcommand{\titulnik}{
+    \begin{titlepage}
+        \pagestyle{empty}
+        \begin{center}
+            \textbf{Министерство науки высшего образования Российской Федерации}
+
+            ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ АВТОНОМНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ
+
+            \textbf{<<НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ ИТМО>> \\ (Университет ИТМО)}
+        \end{center}
+        \begin{flushleft}
+            \ifthenelse{\not\equal{\i@faculty}{\@empty}}{\textbf{Факультет: } \i@faculty}{}
+
+            \ifthenelse{\not\equal{\i@eduprogram}{\@empty}}{\textbf{Образовательная программа: } \i@eduprogram}{}
+
+            \ifthenelse{\not\equal{\i@speciality}{\@empty}}{\textbf{Направление подготовки (специальность): } \i@speciality}{}
+        \end{flushleft}
+
+        \vfill
+
+        \begin{center}
+            \textbf{\MakeUppercase{\@title}}
+            
+           по дисциплине <<\i@discipline>>
+
+            \ifthenelse{\not\equal{\i@variant}{\@empty}}{Вариант \i@variant}{}%
+
+            \hspace{20mm}
+        \end{center}
+        \vfill
+        \hfill
+        \begin{minipage}{.4\textwidth}
+            Выполнил студент:\\[2mm]
+            \@author\\
+            группа: \i@edugroup\\[5mm]
+
+            Преподаватель:\\[2mm]
+            \i@teacher
+        \end{minipage}%
+        \vfill
+        \begin{center}
+            \i@city, \@date \ г.
+        \end{center}
+    \end{titlepage}
+    \pagestyle{fancy}
+    \clearpage
+}

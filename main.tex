@@ -1,0 +1,53 @@
+% !TEX program = xelatex
+% Author: Artem Kiselev
+\documentclass[xetex,a4paper,12pt]{extarticle}
+
+\input{lib/preamble}
+
+\faculty{Факультет}
+\eduprogram{Обр.программа}
+\speciality{Специальность}
+\title{Отчет по лабораторной работе №1}
+\discipline{Дисциплина}
+\variant{1}
+\author{Киселев Артем Олегович}
+\edugroup{P4115}
+\teacher{Письмак Алексей\\Евгеньевич}
+\city{Санкт-Единбург}
+\date{\the\year}
+
+\input{lib/preamble/pdf.tex}
+
+\begin{document}
+
+    \titulnik
+
+    \input{include/0-annotation.tex}
+
+    \setcounter{page}{3}
+
+    % Содержание  
+    \tableofcontents
+    \clearpage
+
+    \input{include/0-glossary.tex}
+    \input{include/0-introdaction.tex}
+    \input{include/list1.tex} % Листы
+    \input{include/list2.tex}
+    \input{include/list3.tex}
+    \input{include/list4.tex}
+    \input{include/0-conclusion.tex}
+    \input{include/0-referencelist.tex}
+
+    % Список иллюстративного материала
+    \lof
+    \clearpage
+
+    % Список табличного материала
+    \lot
+    \clearpage
+
+    % Приложения
+    \input{include/a-app}
+
+\end{document}
