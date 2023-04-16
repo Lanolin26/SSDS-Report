@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0">
+  <header>
+    <product version="1.0" lang="en">Vensim</product>
+    <vendor>Ventana Systems, Inc.</vendor>
+    <created>Kiselev Artem, Sherbakov Victor, Yaroshevsky Maksim</created>
+    <modified>Kiselev Artem</modified>
+    <name>Direct connection cells</name>
+    <caption>Direct connection cells</caption>
+ </header>
+  <sim_specs method="RK4" time_units="Hour">
+    <start>0</start>
+    <stop>100</stop>
+    <dt>1</dt>
+ </sim_specs>
+  <model>
+    <variables>
+      <stock name="Car_Count_A">
+        <units>cars</units>
+        <doc></doc>
+        <eqn>0</eqn>
+        <inflow>in A</inflow>
+        <outflow>inout</outflow>
+     </stock>
+      <stock name="Car_Count_B">
+        <units>cars</units>
+        <doc></doc>
+        <eqn>0</eqn>
+        <inflow>inout</inflow>
+        <outflow>out B</outflow>
+     </stock>
+      <aux name="C_A">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>C0_A * Ln_A</eqn>
+     </aux>
+      <aux name="C_B">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>C0_B * Ln_B</eqn>
+     </aux>
+      <aux name="in_A">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min(s_A_0, r_A)</eqn>
+     </aux>
+      <aux name="inout">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min(s_A, r_B)</eqn>
+     </aux>
+      <aux name="N_A">
+        <units>cars</units>
+        <doc></doc>
+        <eqn>N0_A * Ln_A</eqn>
+     </aux>
+      <aux name="N_B">
+        <units>cars</units>
+        <doc></doc>
+        <eqn>N0_B * Ln_B</eqn>
+     </aux>
+      <aux name="out_B">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min(s_B, r_B_0)</eqn>
+     </aux>
+      <aux name="r_A">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min( C_A, (V0_A / Speed_A) * ((N_A - Car_Count_A) / TIME_STEP) )</eqn>
+     </aux>
+      <aux name="r_B">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min( C_B, (V0_B / Speed_B) * ((N_B - Car_Count_B) / TIME_STEP) )</eqn>
+     </aux>
+      <aux name="s_A">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min(C_A, Car_Count_A / TIME_STEP)</eqn>
+     </aux>
+      <aux name="s_B">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>min(C_B, Car_Count_B / TIME_STEP)</eqn>
+     </aux>
+      <aux name="C0_A">
+        <units>cars/(Hour*km)</units>
+        <doc></doc>
+        <eqn>10</eqn>
+     </aux>
+      <aux name="C0_B">
+        <units>cars/(Hour*km)</units>
+        <doc></doc>
+        <eqn>10</eqn>
+     </aux>
+      <aux name="Ln_A">
+        <units>km</units>
+        <doc></doc>
+        <eqn>2</eqn>
+     </aux>
+      <aux name="Ln_B">
+        <units>km</units>
+        <doc></doc>
+        <eqn>2</eqn>
+     </aux>
+      <aux name="N0_A">
+        <units>cars/km</units>
+        <doc></doc>
+        <eqn>10</eqn>
+     </aux>
+      <aux name="N0_B">
+        <units>cars/km</units>
+        <doc></doc>
+        <eqn>10</eqn>
+     </aux>
+      <aux name="r_B_0">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>100</eqn>
+     </aux>
+      <aux name="s_A_0">
+        <units>cars/Hour</units>
+        <doc></doc>
+        <eqn>100</eqn>
+     </aux>
+      <aux name="Speed_A">
+        <units>km/Hour</units>
+        <doc></doc>
+        <eqn>80</eqn>
+     </aux>
+      <aux name="Speed_B">
+        <units>km/Hour</units>
+        <doc></doc>
+        <eqn>80</eqn>
+     </aux>
+      <aux name="V0_A">
+        <units>km/Hour</units>
+        <doc></doc>
+        <eqn>60</eqn>
+     </aux>
+      <aux name="V0_B">
+        <units>km/Hour</units>
+        <doc></doc>
+        <eqn>60</eqn>
+     </aux>
+   </variables>
+ </model>
+</xmile>

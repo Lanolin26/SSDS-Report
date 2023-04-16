@@ -1,4 +1,5 @@
 output/
+artifact/
 .git
 *.lof
 *.lot

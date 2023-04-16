@@ -4,6 +4,7 @@ Dockerfile
 README.md
 .git
 output
+artifact
 *.pdf
 .vscode
 *.lof

@@ -1,15 +1,20 @@
 OUTPUT_DIR ?= output
 OUTPUT_FILE ?= report
+ARTIFACT_DIR ?= artifact
 
 MAIN_BUILD_FILE=main
 
 BUILD=xelatex
 BUILD_OPT=-synctex=1 -interaction=nonstopmode -file-line-error -recorder -output-directory="$(OUTPUT_DIR)" -jobname=$(OUTPUT_FILE)
-CLEAN_FILES=*.aux *.fdb_latexmk *.fls *.log *.out *.blg *.bbl *.ps *.synctex.gz *.toc *.nav *.snm *.xdv *.lot *lof
+CLEAN_FILES=*.aux *.fdb_latexmk *.fls *.log *.out *.blg *.bbl *.ps *.synctex.gz *.toc *.nav *.snm *.xdv *.lot *.lof
 
 DOCKER_IMAGE ?= lanolin25/docker-latex
 DOCKER_IMAGE_VERSION ?= v1.3
 DOCKER_IMAGE_ALL ?= $(DOCKER_IMAGE):$(DOCKER_IMAGE_VERSION)
+
+TIMESTAMP=$(shell date +"%Y%m%d%H%M%S")
+
+.PHONY: clean clear docker-create
 
 all: clear build clean
 
@@ -20,12 +25,29 @@ clean:
 
 clear:
 	@rm -rf $(OUTPUT_DIR)
+	@rm -rf $(ARTIFACT_DIR)
 
 create_output_dir:
 	@mkdir -p $(OUTPUT_DIR)
 
-build: create_output_dir *.tex
+create_artifacts:
+	@mkdir -p $(ARTIFACT_DIR)
+
+build: create_output_dir *.tex $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf
 	$(BUILD) $(BUILD_OPT) $(MAIN_BUILD_FILE).tex
+	@mv $(OUTPUT_DIR)/$(OUTPUT_FILE).log $(OUTPUT_DIR)/$(OUTPUT_FILE)_1.log
+	
+	bibtex $(OUTPUT_DIR)/$(OUTPUT_FILE).aux
+	
+	$(BUILD) $(BUILD_OPT) $(MAIN_BUILD_FILE).tex
+	@mv $(OUTPUT_DIR)/$(OUTPUT_FILE).log $(OUTPUT_DIR)/$(OUTPUT_FILE)_2.log
+	
+	$(BUILD) $(BUILD_OPT) $(MAIN_BUILD_FILE).tex
+	@mv $(OUTPUT_DIR)/$(OUTPUT_FILE).log $(OUTPUT_DIR)/$(OUTPUT_FILE)_3.log
+
+artifacts: create_artifacts
+	@cp $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf $(ARTIFACT_DIR)/$(OUTPUT_FILE)_$(TIMESTAMP).pdf
+	@cat $(OUTPUT_DIR)/$(OUTPUT_FILE)_*.log > $(ARTIFACT_DIR)/$(OUTPUT_FILE)_$(TIMESTAMP).log
 
 docker-create:
 	docker build -t $(DOCKER_IMAGE_NAME) .
