@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0">
+	<header>
+		<product version="1.0" lang="en">Vensim</product>
+		<vendor>Ventana Systems, Inc.</vendor>
+		<created>
+		</created>
+		<modified>
+		</modified>
+		<name>
+		</name>
+		<caption>
+		</caption>
+	</header>
+	<sim_specs method="RK4" time_units="Hour">
+		<start> 0</start>
+		<stop> 100</stop>
+		<dt> 1</dt>
+	</sim_specs>
+	<model>
+		<variables>
+			<stock name="Car_Count_A">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					in
+					</inflow>
+					<outflow>
+					"A-B"
+					</outflow>
+					<outflow>
+					"A-D"
+					</outflow>
+			</stock>
+			<stock name="Car_Count_B">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					"A-B"
+					</inflow>
+					<outflow>
+					"B-C"
+					</outflow>
+			</stock>
+			<stock name="Car_Count_C">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					"B-C"
+					</inflow>
+					<outflow>
+					"C-F"
+					</outflow>
+			</stock>
+			<stock name="Car_Count_D">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					"A-D"
+					</inflow>
+					<outflow>
+					"D-E"
+					</outflow>
+			</stock>
+			<stock name="Car_Count_E">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					"D-E"
+					</inflow>
+					<outflow>
+					"E-F"
+					</outflow>
+			</stock>
+			<stock name="Car_Count_F">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+					0
+					</eqn>
+					<inflow>
+					"C-F"
+					</inflow>
+					<inflow>
+					"E-F"
+					</inflow>
+					<outflow>
+					out 4
+					</outflow>
+			</stock>
+			<aux name="A-B">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_A-B"					</eqn>
+			</aux>
+			<aux name="A-D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_A-D"					</eqn>
+			</aux>
+			<aux name="B-C">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(s_B, r_C)					</eqn>
+			</aux>
+			<aux name="C_A">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_A * Ln_A					</eqn>
+			</aux>
+			<aux name="C_B">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_B * Ln_B					</eqn>
+			</aux>
+			<aux name="C_C">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_C * Ln_C					</eqn>
+			</aux>
+			<aux name="C_D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_D * Ln_D					</eqn>
+			</aux>
+			<aux name="C_E">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_E * Ln_E					</eqn>
+			</aux>
+			<aux name="C_F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	C0_F * Ln_F					</eqn>
+			</aux>
+			<aux name="C-F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_C-F"					</eqn>
+			</aux>
+			<aux name="coef_A-D">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	1-"coef_A-B"					</eqn>
+			</aux>
+			<aux name="coef_E-F">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	1-"coef_C-F"					</eqn>
+			</aux>
+			<aux name="D-E">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(s_D, r_E)					</eqn>
+			</aux>
+			<aux name="E-F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_E-F"					</eqn>
+			</aux>
+			<aux name="F_A-B">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_A-B-D" * "coef_A-B"					</eqn>
+			</aux>
+			<aux name="F_A-B-D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( s_A, min( r_B / "coef_A-B", r_D / "coef_A-D" ) )					</eqn>
+			</aux>
+			<aux name="F_A-D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	"F_A-B-D" * "coef_A-D"					</eqn>
+			</aux>
+			<aux name="F_C-F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	IF_THEN_ELSE(
+	 s_C + s_E <= r_F ,
+	 s_C ,
+	 (min(s_C , min (r_F - s_E , "coef_C-F" * r_F)) + max(s_C , max(r_F - s_E , "coef_C-F" * r_F)))/2
+	)					</eqn>
+			</aux>
+			<aux name="F_E-F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	IF_THEN_ELSE(
+	 s_C + s_E <= r_F ,
+	 s_E ,
+	 (min(s_E , min (r_F - s_C , "coef_E-F" * s_C)) + max(s_E , max(r_F - s_C , "coef_E-F" * r_F)))/2
+	)					</eqn>
+			</aux>
+			<aux name="in">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(s_A_0, r_A)					</eqn>
+			</aux>
+			<aux name="N_A">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_A * Ln_A					</eqn>
+			</aux>
+			<aux name="N_B">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_B * Ln_B					</eqn>
+			</aux>
+			<aux name="N_C">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_C * Ln_C					</eqn>
+			</aux>
+			<aux name="N_D">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_D * Ln_D					</eqn>
+			</aux>
+			<aux name="N_E">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_E * Ln_E					</eqn>
+			</aux>
+			<aux name="N_F">
+				<units>cars</units>
+				<doc></doc>
+					<eqn>
+	N0_F * Ln_F					</eqn>
+			</aux>
+			<aux name="out_4">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(s_F, r_F_0)					</eqn>
+			</aux>
+			<aux name="r_A">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_A, (V0_A / Speed_A) * ((N_A - Car_Count_A) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="r_B">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_B, (V0_B / Speed_B) * ((N_B - Car_Count_B) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="r_C">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_C, (V0_C / Speed_C) * ((N_C - Car_Count_C) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="r_D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_D, (V0_D / Speed_D) * ((N_D - Car_Count_D) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="r_E">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_E, (V0_E / Speed_E) * ((N_E - Car_Count_E) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="r_F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min( C_F, (V0_F / Speed_F) * ((N_F - Car_Count_F) / TIME_STEP) )					</eqn>
+			</aux>
+			<aux name="s_A">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_A, Car_Count_A / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="s_B">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_B, Car_Count_B / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="s_C">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_C, Car_Count_C / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="s_D">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_D, Car_Count_D / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="s_E">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_E, Car_Count_E / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="s_F">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	min(C_F, Car_Count_F / TIME_STEP)					</eqn>
+			</aux>
+			<aux name="C0_A">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="C0_B">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="C0_C">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="C0_D">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="C0_E">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="C0_F">
+				<units>cars/(Hour*km)</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="coef_A-B">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0.5					</eqn>
+			</aux>
+			<aux name="coef_C-F">
+				<units></units>
+				<doc></doc>
+					<eqn>
+	0.5					</eqn>
+			</aux>
+			<aux name="Ln_A">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="Ln_B">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="Ln_C">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="Ln_D">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="Ln_E">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="Ln_F">
+				<units>km</units>
+				<doc></doc>
+					<eqn>
+	2					</eqn>
+			</aux>
+			<aux name="N0_A">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="N0_B">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="N0_C">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="N0_D">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="N0_E">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="N0_F">
+				<units>cars/km</units>
+				<doc></doc>
+					<eqn>
+	10					</eqn>
+			</aux>
+			<aux name="r_F_0">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	100					</eqn>
+			</aux>
+			<aux name="s_A_0">
+				<units>cars/Hour</units>
+				<doc></doc>
+					<eqn>
+	100					</eqn>
+			</aux>
+			<aux name="Speed_A">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="Speed_B">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="Speed_C">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="Speed_D">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="Speed_E">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="Speed_F">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	80					</eqn>
+			</aux>
+			<aux name="V0_A">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+			<aux name="V0_B">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+			<aux name="V0_C">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+			<aux name="V0_D">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+			<aux name="V0_E">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+			<aux name="V0_F">
+				<units>km/Hour</units>
+				<doc></doc>
+					<eqn>
+	60					</eqn>
+			</aux>
+		</variables>
+	</model>
+</xmile>
