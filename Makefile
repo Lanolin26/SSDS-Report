@@ -45,9 +45,9 @@ build: create_output_dir *.tex $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf
 	$(BUILD) $(BUILD_OPT) $(MAIN_BUILD_FILE).tex
 	@mv $(OUTPUT_DIR)/$(OUTPUT_FILE).log $(OUTPUT_DIR)/$(OUTPUT_FILE)_3.log
 
-artifacts: create_artifacts
-	@cp $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf $(ARTIFACT_DIR)/$(OUTPUT_FILE)_$(TIMESTAMP).pdf
-	@cat $(OUTPUT_DIR)/$(OUTPUT_FILE)_*.log > $(ARTIFACT_DIR)/$(OUTPUT_FILE)_$(TIMESTAMP).log
+artifacts: build create_artifacts
+	@cp -f $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf $(ARTIFACT_DIR)/$(OUTPUT_FILE).pdf
+	@cat $(OUTPUT_DIR)/$(OUTPUT_FILE)_*.log > $(ARTIFACT_DIR)/$(OUTPUT_FILE).log
 
 docker-create:
 	docker build -t $(DOCKER_IMAGE_NAME) .

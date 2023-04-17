@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 env: 
-  DOCKER_IMAGE: 'lanolin25/docker-latex:v1.3'
+  DOCKER_IMAGE: 'lanolin25/docker-latex:v1.6'
 
 jobs:
   Build:
@@ -19,10 +19,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+      
       - name: Pull Docker to local
         run: docker pull ${DOCKER_IMAGE}
+      
       - name: Build PDF
         run: docker run --rm -i -v ${PWD}:/build:Z ${DOCKER_IMAGE} sh -c "make build"
+      
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
