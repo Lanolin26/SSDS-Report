@@ -25,7 +25,7 @@
 % SD is not adapted for spatial effects induced by traffic. In order to discard this issue, a numerical model can be developed to estimate a solution given initial conditions. 
 % Possible scheme consists in considering a road section as a sequence of contiguous finite cells through which a flow of vehicles proceeds.  The seminal example for such models in theCell-Transmission Model (CTM).
 
-Модель системной динамики не адаптирован к пространственным эффектам, вызванным дорожным движением. Чтобы отказаться от этого вопроса, можно разработать численную модель для оценки решения при заданных начальных условиях. Возможная схема состоит в рассмотрении участка дороги как последовательности смежных конечных ячеек, через которые проходит поток транспортных средств. Основополагающим примером для таких моделей является модель Cell-Transmission Model (CTM).
+Модель системной динамики не адаптирована к пространственным эффектам, которые вызваны дорожным движением. Чтобы решить этот вопрос, можно разработать численную модель для оценки решения при заданных начальных условиях. Возможная схема состоит из представления участка дороги как последовательности смежных конечных ячеек, через которые проходит поток транспортных средств. Основополагающим примером для таких моделей является модель Cell-Transmission Model (CTM).
 
 % In this approach, a road section is divided into cells the length of which is equal to the distance crossed by a vehicle driving at the highest speed allowed, or free flow speed, during one time step.This means that, for light traffic conditions all the vehicles located in a given cell i at time step t can be found in the next celli+1 downstream at time step t+1:
 
@@ -45,9 +45,9 @@
 % Its current occupancy n_i(t), or the total number of vehicles the cell encompasses at time t.
 
 \begin{itemize}
-    \item Его размер $N_i^0$, то есть максимальное количество автомобилей, которое может содержать ячейка. Это зависит, среди прочего, от длины ячейки, скорости свободного потока в ячейке и количества полос движения;
-    \item Его пропускная способность $C_i$, которая равна максимальному количеству транспортных средств, которые ячейка может отправить или принять за единицу времени;
-    \item Его текущая заполняемость $n_i(t)$, или общее количество транспортных средств, охватываемых ячейкой в момент времени $t$.
+    \item Ее размер $N_i^0$, то есть максимальное количество автомобилей, которое может содержать ячейка. Это зависит, среди прочего, от длины ячейки, скорости свободного потока в ячейке и количества полос движения;
+    \item Ее пропускная способность $C_i$, которая равна максимальному количеству транспортных средств, которые ячейка может отправить или принять за единицу времени;
+    \item Ее текущая заполняемость $n_i(t)$, или общее количество транспортных средств, охватываемых ячейкой в момент времени $t$.
 \end{itemize}
 
 % Based on these variables, two quantities can be defined. The first, noted Si, is the number of vehicles currently within the cell that can be sent to the first cell downstream. The second is noted Ri and stands for the number of vehicles contained in the cell upstream that can enter the cell i. Both quantities are bound by the product of the capacity times the time step. They can then be mathematically defined as follows:
@@ -55,11 +55,13 @@
 На основе этих переменных можно определить две величины. Первый, отмеченный $S_i$, - это количество транспортных средств, находящихся в данный момент в ячейке, которые могут быть отправлены в первую ячейку ниже по потоку. Второй отмечен как $R_i$ и обозначает количество транспортных средств, содержащихся в ячейке выше по потоку, которые могут войти в ячейку $i$. Обе величины связаны произведением емкости на временной шаг. Затем они могут быть математически определены следующим образом:
 
 \begin{equation}
-    S_i = \min(C_i * \delta t, n_i) (6)
+    \label{eqn:Si}
+    S_i = \min(C_i * \delta t, n_i)
 \end{equation}
 
 \begin{equation}
-    R_i = \min(C_i * \delta t, N_i^0 − n_i) (7)
+    \label{eqn:Ri}
+    R_i = \min(C_i * \delta t, N_i^0 − n_i)
 \end{equation}
 
 % The number of vehicles flowing between two consecutive cells i−1 and i, noted Qi, is therefore equal to:
@@ -67,35 +69,40 @@
 Таким образом, количество транспортных средств, проходящих между двумя последовательными ячейками $i−1$ и $i$, отмеченными $Q_i$, равно:
 
 \begin{equation}
-    Q_i = \min(S_{i−1},R_i) (8)
+    \label{eqn:Qi}
+    Q_i = \min(S_{i−1},R_i)
 \end{equation}
 
 % The different equations presented must be slightly adapted. Indeed, the equations 6, 7 and 8 actually describes a number of vehicles.  In order to build a SD model, they must be defined as flows of vehicles, that is a number of vehicles per unit of time. Since the time step δt is strictly greater than 0, these equations still hold true if divided by it. They become then:
 
-Различные представленные уравнения должны быть слегка адаптированы. Действительно, уравнения 6, 7 и 8 на самом деле описывают ряд транспортных средств. Чтобы построить модель SD, они должны быть определены как потоки транспортных средств, то есть количество транспортных средств в единицу времени. Поскольку временной шаг $\delta t$ строго больше 0, эти уравнения по-прежнему справедливы, если разделить их на него. Они становятся тогда:
+Различные представленные уравнения должны быть слегка адаптированы. Действительно, уравнения \ref{eqn:Si}, \ref{eqn:Ri} и \ref{eqn:Qi} на самом деле описывают ряд транспортных средств. Чтобы построить модель SD, они должны быть определены как потоки транспортных средств, то есть количество транспортных средств в единицу времени. Поскольку временной шаг $\delta t$ строго больше 0, эти уравнения по-прежнему справедливы, если разделить их на него. Они становятся тогда:
 
 \begin{equation}
-    s_i = \min(C_i, \frac{n_i}{\delta t}) (10)
+    \label{eqn:si}
+    s_i = \min(C_i, \frac{n_i}{\delta t})
 \end{equation}
 
 \begin{equation}
-    r_i = \min(C_i, \frac{N_i − n_i}{\delta t}) (11)
+    \label{eqn:ri}
+    r_i = \min(C_i, \frac{N_i − n_i}{\delta t})
 \end{equation}
 
 \begin{equation}
-    q_i = \min(s_{i−1}, r_i) (12)
+    \label{eqn:qi}
+    q_i = \min(s_{i−1}, r_i)
 \end{equation}
 
 % Besides this, the term Ni−ni / δt from equation 11 must be corrected by a factor taking into account the fact that kinematic waves may propagate at a lower speed than the flow for free flow conditions. Let w be this speed.  In the equation 11, it is assumed to be equal to the free flow speed.  This equation can be generalized as follows:
 
-Кроме того, член $\frac{N_i − n_i}{\delta t}$ из уравнения 11 должен быть скорректирован на коэффициент, учитывающий тот факт, что кинематические волны могут распространяться с меньшей скоростью, чем поток в условиях свободного течения. Пусть $w$ - эта входящая скорость машины, $v$ - ограничение скорости на ячейке. В уравнении 11 предполагается, что она равна скорости свободного потока. Это уравнение можно обобщить следующим образом:
+Кроме того, член $\frac{N_i − n_i}{\delta t}$ из уравнения \ref{eqn:ri} должен быть скорректирован на коэффициент, учитывающий тот факт, что кинематические волны могут распространяться с меньшей скоростью, чем поток в условиях свободного течения. Пусть $w$ - эта входящая скорость машины, $v$ - ограничение скорости на ячейке. В уравнении \ref{eqn:ri} предполагается, что она равна скорости свободного потока. Это уравнение можно обобщить следующим образом:
 
 \begin{equation}
+    \label{eqn:ri1}
     r_i = \min(C_i, \frac{w}{v} * \frac{N_i − n_i}{δt})
 \end{equation}
 
 % This equation, as well as equations 10, 12 and 13, can be used for building a stock-flow model of the CTM. This structure is shown on the figure 5.
 
-Это уравнение, а также уравнения 10, 12 и 13, могут быть использованы для построения модели движения запасов CTM. Эта структура показана на рисунке 5.
+Это уравнение, а также уравнения \ref{eqn:si}, \ref{eqn:qi} и \ref{eqn:ri1}, могут быть использованы для построения модели движения запасов CTM. Эта структура показана на рисунке 5.
 
 \clearpage
