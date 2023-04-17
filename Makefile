@@ -9,7 +9,7 @@ BUILD_OPT=-synctex=1 -interaction=nonstopmode -file-line-error -recorder -output
 CLEAN_FILES=*.aux *.fdb_latexmk *.fls *.log *.out *.blg *.bbl *.ps *.synctex.gz *.toc *.nav *.snm *.xdv *.lot *.lof
 
 DOCKER_IMAGE ?= lanolin25/docker-latex
-DOCKER_IMAGE_VERSION ?= v1.3
+DOCKER_IMAGE_VERSION ?= v1.6
 DOCKER_IMAGE_ALL ?= $(DOCKER_IMAGE):$(DOCKER_IMAGE_VERSION)
 
 TIMESTAMP=$(shell date +"%Y%m%d%H%M%S")
@@ -33,7 +33,7 @@ create_output_dir:
 create_artifacts:
 	@mkdir -p $(ARTIFACT_DIR)
 
-build: create_output_dir *.tex $(OUTPUT_DIR)/$(OUTPUT_FILE).pdf
+build: create_output_dir *.tex
 	$(BUILD) $(BUILD_OPT) $(MAIN_BUILD_FILE).tex
 	@mv $(OUTPUT_DIR)/$(OUTPUT_FILE).log $(OUTPUT_DIR)/$(OUTPUT_FILE)_1.log
 	
