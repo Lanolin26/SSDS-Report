@@ -44,7 +44,7 @@ jobs:
        - name: Create release on tag
          uses: softprops/action-gh-release@v1
          with:
-           name: "Release $GITHUB_REF_NAME"
+           name: Release ${GITHUB_REF_NAME}
            body: |
               New release of LaTeX document
            files: |
