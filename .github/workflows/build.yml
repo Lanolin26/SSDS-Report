@@ -21,21 +21,15 @@ jobs:
           docker pull ${DOCKER_IMAGE}
       
       - name: Build PDF
-        run: docker run --rm -i -v ${PWD}:/build:Z ${DOCKER_IMAGE} sh -c "make artifacts"
-      
-      - name: Rename artifacts
-        run: |
-          cd artifact
-          mv report.pdf report-${{ env.GITHUB_REF_NAME }}.pdf
-          mv report.log report-${{ env.GITHUB_REF_NAME }}.log
+        run: docker run --rm -i -v ${PWD}:/build:Z ${DOCKER_IMAGE} sh -c "OUTPUT_FILE=report-${{ github.ref_name }} make artifacts"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
-            artifact/report-${{ env.GITHUB_REF_NAME }}.pdf
-            artifact/report-${{ env.GITHUB_REF_NAME }}.log
+            artifact/report-${{ github.ref_name }}.pdf
+            artifact/report-${{ github.ref_name }}.log
   
   Release:
      runs-on: ubuntu-latest
@@ -53,5 +47,5 @@ jobs:
            body: |
               New release of LaTeX document
            files: |
-             report-${{ env.GITHUB_REF_NAME }}.pdf
-             report-${{ env.GITHUB_REF_NAME }}.log
+             report-${{ github.ref_name }}.pdf
+             report-${{ github.ref_name }}.log
