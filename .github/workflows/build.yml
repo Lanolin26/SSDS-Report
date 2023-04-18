@@ -26,16 +26,16 @@ jobs:
       - name: Rename artifacts
         run: |
           cd artifact
-          mv report.pdf report-${{ GITHUB_REF_NAME }}.pdf
-          mv report.log report-${{ GITHUB_REF_NAME }}.log
+          mv report.pdf report-${{ env.GITHUB_REF_NAME }}.pdf
+          mv report.log report-${{ env.GITHUB_REF_NAME }}.log
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
-            artifact/report-${{ GITHUB_REF_NAME }}.pdf
-            artifact/report-${{ GITHUB_REF_NAME }}.log
+            artifact/report-${{ env.GITHUB_REF_NAME }}.pdf
+            artifact/report-${{ env.GITHUB_REF_NAME }}.log
   
   Release:
      runs-on: ubuntu-latest
@@ -53,5 +53,5 @@ jobs:
            body: |
               New release of LaTeX document
            files: |
-             report-${{ GITHUB_REF_NAME }}.pdf
-             report-${{ GITHUB_REF_NAME }}.log
+             report-${{ env.GITHUB_REF_NAME }}.pdf
+             report-${{ env.GITHUB_REF_NAME }}.log
