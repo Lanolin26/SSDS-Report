@@ -23,13 +23,19 @@ jobs:
       - name: Build PDF
         run: docker run --rm -i -v ${PWD}:/build:Z ${DOCKER_IMAGE} sh -c "make artifacts"
       
+      - name: Rename artifacts
+        run: |
+          cd artifact
+          mv report.pdf report-${{ GITHUB_REF_NAME }}.pdf
+          mv report.log report-${{ GITHUB_REF_NAME }}.log
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: artifacts
           path: |
-            artifact/report.pdf
-            artifact/report.log
+            artifact/report-${{ GITHUB_REF_NAME }}.pdf
+            artifact/report-${{ GITHUB_REF_NAME }}.log
   
   Release:
      runs-on: ubuntu-latest
@@ -44,9 +50,8 @@ jobs:
        - name: Create release on tag
          uses: softprops/action-gh-release@v1
          with:
-           name: Release ${GITHUB_REF_NAME}
            body: |
               New release of LaTeX document
            files: |
-             report.pdf
-             report.log
+             report-${{ GITHUB_REF_NAME }}.pdf
+             report-${{ GITHUB_REF_NAME }}.log
